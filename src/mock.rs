@@ -30,7 +30,7 @@ impl<'a> Mock<'a> {
         let this = self as *mut Self;
         self.mocks
             .entry(id)
-            .or_insert_with(|| f.mock_scoped(CallGlue::new(this, id)));
+            .or_insert_with(|| unsafe { f.mock_scoped(CallGlue::new(this, id)) });
 
         let calls = self.calls.entry(id).or_insert_with(Default::default);
         let last = calls.len();
