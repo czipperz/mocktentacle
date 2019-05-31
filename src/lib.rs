@@ -7,7 +7,7 @@ mod expected_call;
 pub use crate::expected_call::*;
 
 mod call_glue;
-mod validate;
+mod verify;
 
 mod mock;
 pub use crate::mock::*;

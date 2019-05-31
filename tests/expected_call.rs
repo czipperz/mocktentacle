@@ -14,7 +14,7 @@ mod times {
         let mut mock = Mock::new();
         mock.expect(f).answer(|| 1).times(2);
         assert_eq!(f(), 1);
-        mock.validate();
+        mock.verify();
     }
 
     #[test]
@@ -23,7 +23,7 @@ mod times {
         mock.expect(f).answer(|| 1).times(2);
         assert_eq!(f(), 1);
         assert_eq!(f(), 1);
-        mock.validate();
+        mock.verify();
     }
 
     #[test]
@@ -34,7 +34,7 @@ mod times {
         assert_eq!(f(), 1);
         assert_eq!(f(), 1);
         assert_eq!(f(), 1);
-        mock.validate();
+        mock.verify();
     }
 }
 
@@ -56,7 +56,7 @@ mod expect {
         mock.expect(f).answer(|| 1);
         f();
         f();
-        mock.validate();
+        mock.verify();
     }
 
     #[test]
@@ -64,7 +64,7 @@ mod expect {
         let mut mock = Mock::new();
         mock.expect(f).answer(|| 1);
         assert_eq!(f(), 1);
-        mock.validate();
+        mock.verify();
     }
 
     #[test]
@@ -74,7 +74,7 @@ mod expect {
         mock.expect(f).answer(|| 2);
         assert_eq!(f(), 1);
         assert_eq!(f(), 2);
-        mock.validate();
+        mock.verify();
     }
 
     #[test]
@@ -84,7 +84,7 @@ mod expect {
         mock.expect(f).answer(|| 2).times(0);
         assert_eq!(f(), 1);
         assert_eq!(f(), 1);
-        mock.validate();
+        mock.verify();
     }
 
     #[test]
@@ -94,6 +94,6 @@ mod expect {
         mock.expect(f).answer(|| 2).times(2);
         assert_eq!(f(), 2);
         assert_eq!(f(), 2);
-        mock.validate();
+        mock.verify();
     }
 }

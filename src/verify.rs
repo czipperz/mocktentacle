@@ -1,11 +1,11 @@
 use crate::expected_call::ExpectedCall;
 
-pub(crate) trait Validate {
-    fn validate(&self) -> bool;
+pub(crate) trait Verify {
+    fn verify(&self) -> bool;
 }
 
-impl<Args, Output> Validate for ExpectedCall<Args, Output> {
-    fn validate(&self) -> bool {
+impl<Args, Output> Verify for ExpectedCall<Args, Output> {
+    fn verify(&self) -> bool {
         if self.num < self.times {
             eprintln!(
                 "Error: Too few invocations: expected {:?}, performed {:?}",

@@ -1,6 +1,6 @@
 use crate::call_glue::CallGlue;
 use crate::expected_call::ExpectedCall;
-use crate::validate::Validate;
+use crate::verify::Verify;
 use mocktopus::mocking::{Mockable, ScopedMock};
 use std::any::TypeId;
 use std::collections::HashMap;
@@ -8,7 +8,7 @@ use std::marker::PhantomPinned;
 
 pub struct Mock<'a> {
     mocks: HashMap<TypeId, ScopedMock<'a>>,
-    pub(crate) calls: HashMap<TypeId, Vec<Box<Validate>>>,
+    pub(crate) calls: HashMap<TypeId, Vec<Box<Verify>>>,
     _pin: PhantomPinned,
 }
 
@@ -38,21 +38,21 @@ impl<'a> Mock<'a> {
         Mock::cast_call(&mut *calls[last])
     }
 
-    pub(crate) fn cast_call<Args, Output>(call: &mut Validate) -> &mut ExpectedCall<Args, Output> {
-        unsafe { &mut *((call as *mut Validate) as *mut ExpectedCall<_, _>) }
+    pub(crate) fn cast_call<Args, Output>(call: &mut Verify) -> &mut ExpectedCall<Args, Output> {
+        unsafe { &mut *((call as *mut Verify) as *mut ExpectedCall<_, _>) }
     }
 
-    pub fn validate(&mut self) {
+    pub fn verify(&mut self) {
         self.mocks.clear();
         let calls = std::mem::replace(&mut self.calls, Default::default());
 
         let mut any_failed = false;
         for entry in calls {
-            any_failed = any_failed || !entry.1.into_iter().all(|call| call.validate())
+            any_failed = any_failed || !entry.1.into_iter().all(|call| call.verify())
         }
 
         if any_failed {
-            panic!("Failed to validate Mock");
+            panic!("Failed to verify Mock");
         }
     }
 }
@@ -60,7 +60,7 @@ impl<'a> Mock<'a> {
 impl<'a> Drop for Mock<'a> {
     fn drop(&mut self) {
         if !std::thread::panicking() && (!self.mocks.is_empty() || !self.calls.is_empty()) {
-            panic!("Forgot to call Mock::validate()");
+            panic!("Forgot to call Mock::verify()");
         }
     }
 }
