@@ -4,6 +4,9 @@ version = "0.1.0"
 authors = ["Chris Gregory <czipperz@gmail.com>"]
 edition = "2018"
 license = "MIT"
+keywords = ["testing", "mock", "mocking", "tdd"]
+categories = ["development-tools::testing"]
+repository = "https://github.com/czipperz/Mocktentacle"
 
 [dependencies]
 mocktopus = { path = "../Mocktopus" }
