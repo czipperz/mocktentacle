@@ -3,7 +3,7 @@
 A mocking framework for mocking functions in Rust.  This utilizes [Mocktopus] as
 the backend.
 
-[Mocktopus](https://github.com/CodeSandwich/Mocktopus)
+[Mocktopus]: https://github.com/CodeSandwich/Mocktopus
 
 ```rust
 #[cfg(test)]
